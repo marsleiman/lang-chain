@@ -10,8 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@langchain/community": "^0.2.4",
     "@langchain/openai": "^0.0.34",
+    "cheerio": "^1.0.0-rc.12",
+    "chromadb": "^1.8.1",
     "dotenv": "^16.4.5",
-    "langchain": "^0.2.3"
+    "faiss-node": "^0.5.1",
+    "langchain": "^0.2.3",
+    "zod": "^3.23.8"
   }
 }
