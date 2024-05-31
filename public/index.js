@@ -15,7 +15,6 @@ form.addEventListener("submit", function (event) {
 socket.on("chat message", function (msg) {
   const item = document.createElement("li");
   let logo = document.createElement("img");
-  logo.src = "./img/access_informatica_srl_logo.jpeg";
   logo.width = 50;
   logo.height = 50;
   item.appendChild(logo);

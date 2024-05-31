@@ -87,7 +87,7 @@ const historial = [
   new AIMessage("Hola Juan, ¿en qué puedo ayudarte?"),
 ];
 
-const response = await conversationChain.invoke({
+export const response = await conversationChain.invoke({
   chat_history: historial,
   input: "Cómo configuro un almacén?",
 });

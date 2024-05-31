@@ -1,9 +1,15 @@
-const express = require("express");
-const http = require("http");
-const { Server } = require("socket.io");
-const { Configuration, OpenAIApi } = require("openai");
-const dotenv = require("dotenv");
-require("../new_chat.js");
+
+import http from "http";
+import { Server } from "socket.io";
+import { Configuration, OpenAIApi } from "openai";
+import dotenv from "dotenv";
+import express from 'express';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { response } from './new_chat.js'
+// Definir __filename y __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 dotenv.config();
 
@@ -16,10 +22,15 @@ const config = new Configuration({
 });
 const openai = new OpenAIApi(config);
 
-app.use(express.static("public"));
+// Configurar directorio de archivos estáticos
+app.use(express.static(__dirname + '/public'));
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(__dirname + "/public/index.html");
+});
+
+app.get('/holas', (req, res) => {
+  res.send(response);
 });
 
 let promtAI = async (promt) => {
