@@ -1,6 +1,7 @@
-import { ChatOpenAI } from "@langchain/openai" 
+import { ChatOpenAI } from "@langchain/openai";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
+import { CSVLoader } from "langchain/document_loaders/fs/csv";
 import { TextLoader } from "langchain/document_loaders/fs/text";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
@@ -18,15 +19,14 @@ dotenv.config();
 const model = new ChatOpenAI({
   modelName: "gpt-3.5-turbo",
   temperature: 0,
+  verbose: true,
 });
 
 // Carga los documentos (Llevarlo a otro módulo)
-const loader = new DirectoryLoader(
-  "knowledge_base",
-  {
-    ".txt": (path) => new TextLoader(path),
-  }
-);
+const loader = new DirectoryLoader("./documents", {
+  ".txt": (path) => new TextLoader(path),
+  ".csv": (path) => new CSVLoader(path),
+});
 
 const docs = await loader.load();
 
@@ -39,11 +39,7 @@ const slited = await splitter.splitDocuments(docs);
 const embeddings = new OpenAIEmbeddings();
 
 // Crea el vector de incrustaciones
-const vectorStore = await FaissStore.fromDocuments(
-  slited,
-  embeddings
-);
-
+const vectorStore = await FaissStore.fromDocuments(slited, embeddings);
 
 const retriever = vectorStore.asRetriever({ k: 3 });
 
@@ -56,7 +52,6 @@ const retrieverPrompt = ChatPromptTemplate.fromMessages([
     "A partir de la conversación de arriba, generá una nueva pregunta que pueda ser entendida sin el historial de la conversación",
   ],
 ]);
-
 
 // Si no recibe un historial, le pasa la consulta directamente al retriever
 const retrieverChain = await createHistoryAwareRetriever({
@@ -75,12 +70,10 @@ const prompt = ChatPromptTemplate.fromMessages([
   ["user", "{input}"],
 ]);
 
-
 const chain = await createStuffDocumentsChain({
   llm: model,
   prompt: prompt,
 });
-
 
 const conversationChain = await createRetrievalChain({
   combineDocsChain: chain,
@@ -94,7 +87,7 @@ const historial = [
   new AIMessage("Hola Juan, ¿en qué puedo ayudarte?"),
 ];
 
-const response = await conversationChain.invoke({
+export const response = await conversationChain.invoke({
   chat_history: historial,
   input: "Cómo configuro un almacén?",
 });
