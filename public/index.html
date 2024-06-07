@@ -4,16 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="styles.css" />
-    <title>Document</title>
+    <title>ChatBot_Demo</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+  </style>
   </head>
   <body>
-    <ul id="messages">.</ul>
-    <form id="form">
-      <input type="text" id="name" placeholder="Escribe un mensaje" />
-    </form>
-    <button>Enviar</button>
+    <div class="main">
+      <div class="chat_log">
+        <ul id="messages">
+        </ul>
+      </div>
+      <div class="chat_input">
+        <form id="form" class="chat_input_form">
+          <input type="text" id="input" class="main_input" placeholder="Escribe un mensaje" />
+          <button class="send_button">Enviar</button>
+        </form>
+      </div>
+    </div>
 
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script src="index.js" type="module"></script>
   </body>
+  
+  <style>
+    body{
+      background-image: linear-gradient(#00173e, #000d23);
+      width: 100%;
+      height: 100dvh;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      align-items: center;
+      background: #00173e;
+    }
+    
+  </style>
+
 </html>
