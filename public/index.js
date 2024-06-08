@@ -1,4 +1,4 @@
-const socket = io("http://localhost:3000");
+const socket = io("http://localhost:8080");
 
 const messages = document.getElementById("messages");
 const form = document.getElementById("form");
@@ -17,12 +17,16 @@ form.addEventListener("submit", function (event) {
     itemTxt.innerText = input.value;
     item.appendChild(itemTxt);
     messages.appendChild(item);
+    //socket emit escucha el evento chat message y envia el mensaje del usuario hacia el servidor.
+    console.log('Segundo paso: El usuario envia su mensaje:',input.value); //este console log se ve en la consola del navegador! estamos del lado del cliente
     socket.emit("chat message", input.value);
+    
     input.value = "";
   }
 });
 
 socket.on("chat message", function (msg) {
+  console.log("Quinto Paso: El servidor me envio de vuelta el mensaje del usuario, lo muestro nuevamente en pantalla") //este console log se ve en la consola del navegador!!
   const item = document.createElement("li");
   item.classList.add('chat_message_ai');
   const itemTxt = document.createElement('div');

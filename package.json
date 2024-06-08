@@ -2,10 +2,11 @@
   "name": "lang-chain",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node backend.js",
+    "start": "node .",
+    "dev": "node --watch .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
